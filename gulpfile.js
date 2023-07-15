@@ -16,7 +16,7 @@ gulp.task('server', function () {
 
 gulp.task('styles', () => {
   return gulp
-    .src('src/scss/*.scss')
+    .src('src/scss/**/*.scss')
     .pipe(sass({ outputStyle: 'compressed' }).on('error', sass.logError))
     .pipe(
       rename({
@@ -31,7 +31,7 @@ gulp.task('styles', () => {
 })
 
 gulp.task('watch', () => {
-  gulp.watch('src/scss/*.scss', gulp.parallel('styles'))
+  gulp.watch('src/scss/**/*.scss', gulp.parallel('styles'))
   gulp.watch('src/*.html').on('change', browserSync.reload)
 })
 
