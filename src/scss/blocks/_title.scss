@@ -1,0 +1,10 @@
+.title {
+  color: #0d0d0d;
+  text-align: center;
+  font-size: 30px;
+  font-weight: 400;
+  text-align: center;
+  &-bold {
+    font-weight: 700;
+  }
+}
