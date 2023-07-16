@@ -45,6 +45,27 @@
     &_main {
       width: 300px;
     }
+    &_submit {
+      width: 100%;
+    }
+  }
+  .title_left {
+    max-width: 100%;
+    font-size: 25px;
+    line-height: 40px;
+  }
+
+  .consultation {
+    padding: 60px 0 70px;
+    min-height: 442px;
+    &__subtitle {
+      span {
+        display: inline;
+      }
+    }
+  }
+  .form {
+    margin: 0 auto;
   }
 }
 
@@ -104,5 +125,16 @@
 
   .title {
     font-size: 25px;
+    &_left {
+      font-size: 20px;
+      line-height: 30px;
+    }
+  }
+
+  .consultation {
+    &__subtitle {
+      font-size: 16px;
+      line-height: 22px;
+    }
   }
 }
