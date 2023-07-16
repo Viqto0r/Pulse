@@ -7,9 +7,7 @@
     &__wrapper {
       margin-top: 50px;
     }
-  }
-  .advantages-block {
-    &__title {
+    &__subtitle {
       margin-top: 25px;
       font-size: 15px;
     }
@@ -94,14 +92,13 @@
       flex-wrap: wrap;
       justify-content: center;
     }
-  }
+    &__item {
+      width: 350px;
+      margin-bottom: 50px;
 
-  .advantages-block {
-    width: 350px;
-    margin-bottom: 50px;
-
-    &:last-child {
-      margin-bottom: 0;
+      &:last-child {
+        margin-bottom: 0;
+      }
     }
   }
 

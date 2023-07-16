@@ -1,9 +1,40 @@
 .advantages {
   padding: 70px 0 67px;
+
   &__wrapper {
     display: flex;
     justify-content: space-between;
     column-gap: 10px;
     margin-top: 65px;
+  }
+
+  &__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 275px;
+  }
+  &__icon {
+    width: 70px;
+    height: 70px;
+  }
+  &__subtitle {
+    margin-top: 30px;
+    color: #0d0d0d;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  &__descr {
+    margin-top: 20px;
+    color: #0d0d0d;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 18px;
+    a {
+      color: #f00;
+    }
   }
 }
