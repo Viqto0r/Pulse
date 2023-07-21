@@ -16,6 +16,17 @@
       font-size: 13px;
     }
   }
+  .carousel {
+    &__inner {
+      width: calc(100% - 66px);
+    }
+    .slick-prev {
+      left: -46px;
+    }
+    .slick-next {
+      right: -46px;
+    }
+  }
 }
 
 @media (max-width: 768px) {
@@ -66,6 +77,12 @@
   }
   .form {
     margin: 0 auto;
+  }
+  .carousel {
+    padding: 50px 0 21px;
+    .slick-dots {
+      margin-top: 30px;
+    }
   }
 }
 
