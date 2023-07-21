@@ -126,6 +126,19 @@
       width: 49%;
     }
   }
+
+  .reviews {
+    &-item {
+      flex-direction: column;
+      align-items: center;
+      margin-top: 40px;
+      gap: 25px;
+      &__name,
+      &__activity {
+        text-align: center;
+      }
+    }
+  }
 }
 
 @media (max-width: 576px) {
@@ -223,6 +236,17 @@
     }
     &-item {
       width: 100%;
+    }
+  }
+
+  .reviews {
+    padding-bottom: 30px;
+    &-item {
+      gap: 20px;
+      &__descr {
+        font-size: 14px;
+        line-height: 20px;
+      }
     }
   }
 }
