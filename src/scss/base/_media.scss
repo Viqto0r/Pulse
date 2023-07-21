@@ -27,6 +27,30 @@
       right: -46px;
     }
   }
+  .catalog {
+    &__tab {
+      font-size: 16px;
+    }
+    &__content {
+      gap: 2vw 2%;
+    }
+    &-item {
+      width: 32%;
+      padding: 15px;
+      &__price {
+        font-size: 15px;
+      }
+      &__old-price {
+        font-size: 13px;
+      }
+    }
+  }
+
+  .button {
+    &_mini {
+      width: 50%;
+    }
+  }
 }
 
 @media (max-width: 768px) {
@@ -52,7 +76,6 @@
   }
 
   .button {
-    width: 145px;
     &_main {
       width: 300px;
     }
@@ -82,6 +105,25 @@
     padding: 50px 0 21px;
     .slick-dots {
       margin-top: 30px;
+      button {
+        margin-right: 10px;
+      }
+    }
+  }
+
+  .catalog {
+    padding-bottom: 60px;
+    &__tabs {
+      gap: 7px;
+    }
+    &__tab {
+      width: 165px;
+      height: 45px;
+      line-height: 45px;
+      font-size: 15px;
+    }
+    &-item {
+      width: 49%;
     }
   }
 }
@@ -141,7 +183,7 @@
   }
 
   .title {
-    font-size: 25px;
+    font-size: 22px;
     &_left {
       font-size: 20px;
       line-height: 30px;
@@ -152,6 +194,35 @@
     &__subtitle {
       font-size: 16px;
       line-height: 22px;
+    }
+  }
+
+  .carousel {
+    .slick-dots {
+      button {
+        width: 15px;
+        height: 15px;
+      }
+    }
+  }
+
+  .catalog {
+    padding-bottom: 40px;
+    &__content {
+      margin-top: 30px;
+    }
+    &__tabs {
+      margin-top: 20px;
+      gap: 7px;
+    }
+    &__tab {
+      font-size: 10px;
+      width: 90px;
+      height: 40px;
+      line-height: 40px;
+    }
+    &-item {
+      width: 100%;
     }
   }
 }

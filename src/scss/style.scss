@@ -1,7 +1,7 @@
 @import 'base/mixins';
 @import 'base/variables';
 
-html {
+body {
   font-family: 'Museo Sans', sans-serif;
   font-weight: 300;
 }
@@ -19,5 +19,6 @@ html {
 @import 'blocks/consultation';
 @import 'blocks/form';
 @import 'blocks/carousel';
+@import 'blocks/catalog';
 
 @import 'base/media';
