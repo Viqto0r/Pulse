@@ -119,7 +119,56 @@ $(document).ready(function () {
     }, 0)
   }
 
+  const validateForms = () => {
+    const forms = document.querySelectorAll('form')
+
+    forms.forEach((form) => {
+      form.addEventListener('submit', (e) => {
+        e.preventDefault()
+
+        const { name, phone, email } = form.elements
+
+        validate(email, isValidateEmail)
+        validate(phone, isValidatePhone)
+        validate(name, isValidateName)
+      })
+    })
+
+    const isValidateEmail = (value) => {
+      return value.match(/\w+@\w+\.(com|ru|en)$/)
+    }
+
+    const isValidatePhone = (value) =>
+      value.length === 11 && !Number.isNaN(+value)
+
+    const isValidateName = (value) => value.length > 1 && value.length < 10
+
+    const validate = (email, checkerFn) => {
+      if (!checkerFn(email.value)) {
+        if (email.nextElementSibling.tagName !== 'LABEL') {
+          addLabel(email)
+        }
+        email.style.outline = '1px solid red'
+      } else {
+        if (email.nextElementSibling.tagName === 'LABEL') {
+          email.nextElementSibling.remove()
+          email.style.outline = 'none'
+        }
+      }
+    }
+
+    const addLabel = (target) => {
+      const label = document.createElement('label')
+      label.style.position = 'relative'
+      label.style.top = '-9px'
+      label.textContent = `Invalid ${target.name}`
+
+      target.insertAdjacentElement('afterend', label)
+    }
+  }
+
   tabs()
   cardInfo()
   modal()
+  validateForms()
 })
