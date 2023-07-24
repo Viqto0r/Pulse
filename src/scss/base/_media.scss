@@ -53,9 +53,6 @@
   }
 
   .footer {
-    &__info {
-    }
-
     &__address {
       font-size: 17px;
     }
@@ -296,5 +293,24 @@
     &__info {
       width: 100%;
     }
+  }
+
+  .modal {
+    width: 90%;
+    padding: 45px 12px 20px;
+    &__close {
+      top: 10px;
+      right: 10px;
+    }
+    &__title {
+      font-size: 16px;
+    }
+    &__subtitle {
+      font-size: 13px;
+    }
+  }
+
+  .form {
+    width: 100%;
   }
 }

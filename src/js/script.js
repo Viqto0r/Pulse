@@ -65,8 +65,61 @@ $(document).ready(function () {
       hiddenAllItems(items, className)
       showItem(items, idx, className)
     }
-	}
-	
+  }
+
+  const modal = () => {
+    const bindTriggers = (triggerSelector, dataTarget, display) => {
+      const triggers = document.querySelectorAll(triggerSelector)
+      const target = document.querySelector(`[data-target="${dataTarget}"]`)
+      const closeBtn = target.querySelector('.modal__close')
+      const layout = document.querySelector('.layout')
+
+      triggers.forEach((trigger) => {
+        trigger.addEventListener('click', () => {
+          fadeIn(layout)
+          fadeIn(target, display)
+          document.body.style.overflow = 'hidden'
+
+          if (dataTarget === 'order') {
+            target.querySelector('.modal__subtitle').textContent = trigger
+              .closest('.catalog-item')
+              .querySelector('.catalog-item__subtitle').textContent
+          }
+        })
+      })
+
+      closeBtn.addEventListener('click', () => {
+        const modals = document.querySelectorAll('.modal')
+
+        fadeOut(layout, 500)
+        modals.forEach((modal) => {
+          fadeOut(modal, 500)
+        })
+        document.body.style.overflow = 'auto'
+      })
+    }
+
+    bindTriggers('[data-trigger="consultation"]', 'consultation', 'flex')
+    bindTriggers('.button_mini', 'order', 'flex')
+  }
+
+  const fadeOut = (target, delay) => {
+    target.style.opacity = 0
+
+    setTimeout(() => {
+      target.style.display = 'none'
+    }, delay)
+  }
+
+  const fadeIn = (target, display = 'block') => {
+    target.style.display = display
+
+    setTimeout(() => {
+      target.style.opacity = 1
+    }, 0)
+  }
+
   tabs()
   cardInfo()
+  modal()
 })
