@@ -79,6 +79,7 @@ $(document).ready(function () {
           fadeIn(layout)
           fadeIn(target, display)
           document.body.style.overflow = 'hidden'
+          document.body.style.marginRight = getScroll() + 'px'
 
           if (dataTarget === 'order') {
             target.querySelector('.modal__subtitle').textContent = trigger
@@ -94,13 +95,30 @@ $(document).ready(function () {
         fadeOut(layout, 500)
         modals.forEach((modal) => {
           fadeOut(modal, 500)
+          setTimeout(() => {
+            document.body.style.overflow = ''
+            document.body.style.marginRight = 0
+          }, 500)
         })
-        document.body.style.overflow = 'auto'
       })
     }
 
     bindTriggers('[data-trigger="consultation"]', 'consultation', 'flex')
     bindTriggers('.button_mini', 'order', 'flex')
+  }
+
+  const getScroll = () => {
+    let scroll
+    const div = document.createElement('div')
+    div.style.width = '50px'
+    div.style.height = '50px'
+    div.style.visibility = 'hidden'
+    div.style.overflowY = 'scroll'
+    document.body.append(div)
+    scroll = div.offsetWidth - div.clientWidth
+    div.remove()
+
+    return scroll
   }
 
   const fadeOut = (target, delay) => {
@@ -167,8 +185,55 @@ $(document).ready(function () {
     }
   }
 
+  const mask = (selector) => {
+    const inputs = document.querySelectorAll(selector)
+
+    const createMask = (input) => {
+      let matrix = '+7-(___)-___-__-__'
+      let startValue = matrix.replace(/\D/g, '')
+      let newValue = input.value.replace(/\D/g, '')
+      let i = 0
+
+      if (newValue.length < startValue.length) {
+        newValue = startValue
+      }
+      newValue = matrix.replace(/./g, (char) => {
+        if (/[_\d]/.test(char) && i < newValue.length) {
+          return newValue[i++]
+        } else if (i >= newValue.length) {
+          return ''
+        } else {
+          return char
+        }
+      })
+
+      input.value = newValue
+    }
+
+    inputs.forEach((input) => {
+      input.addEventListener('input', (e) => {
+        createMask(e.target)
+      })
+      input.addEventListener('focus', (e) => {
+        createMask(e.target)
+        setTimeout(() => {
+          e.target.setSelectionRange(
+            e.target.value.length,
+            e.target.value.length
+          )
+        }, 0)
+      })
+      input.addEventListener('blur', (e) => {
+        if (e.target.value.length === 2) {
+          e.target.value = ''
+        }
+      })
+    })
+  }
+
   tabs()
   cardInfo()
   modal()
   validateForms()
+  mask('[name="phone"]')
 })
