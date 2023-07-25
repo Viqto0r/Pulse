@@ -71,13 +71,14 @@ $(document).ready(function () {
     const bindTriggers = (triggerSelector, dataTarget, display) => {
       const triggers = document.querySelectorAll(triggerSelector)
       const target = document.querySelector(`[data-target="${dataTarget}"]`)
-      const closeBtn = target.querySelector('.modal__close')
+      const closeBtns = document.querySelectorAll('.modal__close')
       const layout = document.querySelector('.layout')
+      const modals = document.querySelectorAll('.modal')
 
       triggers.forEach((trigger) => {
         trigger.addEventListener('click', () => {
           fadeIn(layout)
-          fadeIn(target, display)
+          fadeIn(target, { display })
           document.body.style.overflow = 'hidden'
           document.body.style.marginRight = getScroll() + 'px'
 
@@ -89,18 +90,18 @@ $(document).ready(function () {
         })
       })
 
-      closeBtn.addEventListener('click', () => {
-        const modals = document.querySelectorAll('.modal')
-
-        fadeOut(layout, 500)
-        modals.forEach((modal) => {
-          fadeOut(modal, 500)
-          setTimeout(() => {
-            document.body.style.overflow = ''
-            document.body.style.marginRight = 0
-          }, 500)
+      closeBtns.forEach((btn) =>
+        btn.addEventListener('click', () => {
+          fadeOut(layout, 500)
+          modals.forEach((modal) => {
+            fadeOut(modal, 500)
+            setTimeout(() => {
+              document.body.style.overflow = ''
+              document.body.style.marginRight = 0
+            }, 500)
+          })
         })
-      })
+      )
     }
 
     bindTriggers('[data-trigger="consultation"]', 'consultation', 'flex')
@@ -129,60 +130,12 @@ $(document).ready(function () {
     }, delay)
   }
 
-  const fadeIn = (target, display = 'block') => {
+  const fadeIn = (target, { delay = 0, display = 'block' } = {}) => {
     target.style.display = display
 
     setTimeout(() => {
       target.style.opacity = 1
-    }, 0)
-  }
-
-  const validateForms = () => {
-    const forms = document.querySelectorAll('form')
-
-    forms.forEach((form) => {
-      form.addEventListener('submit', (e) => {
-        e.preventDefault()
-
-        const { name, phone, email } = form.elements
-
-        validate(email, isValidateEmail)
-        validate(phone, isValidatePhone)
-        validate(name, isValidateName)
-      })
-    })
-
-    const isValidateEmail = (value) => {
-      return value.match(/\w+@\w+\.(com|ru|en)$/)
-    }
-
-    const isValidatePhone = (value) =>
-      value.length === 11 && !Number.isNaN(+value)
-
-    const isValidateName = (value) => value.length > 1 && value.length < 10
-
-    const validate = (email, checkerFn) => {
-      if (!checkerFn(email.value)) {
-        if (email.nextElementSibling.tagName !== 'LABEL') {
-          addLabel(email)
-        }
-        email.style.outline = '1px solid red'
-      } else {
-        if (email.nextElementSibling.tagName === 'LABEL') {
-          email.nextElementSibling.remove()
-          email.style.outline = 'none'
-        }
-      }
-    }
-
-    const addLabel = (target) => {
-      const label = document.createElement('label')
-      label.style.position = 'relative'
-      label.style.top = '-9px'
-      label.textContent = `Invalid ${target.name}`
-
-      target.insertAdjacentElement('afterend', label)
-    }
+    }, delay)
   }
 
   const mask = (selector) => {
@@ -231,9 +184,86 @@ $(document).ready(function () {
     })
   }
 
+  const postFormData = () => {
+    const forms = document.querySelectorAll('form')
+    const fieldNames = {
+      name: 'Не корректное имя',
+      phone: 'Не корректный номер телефона',
+      email: 'Не корректный адрес почты',
+    }
+    const validFields = {
+      name: false,
+      phone: false,
+      email: false,
+    }
+
+    const isValidateEmail = (value) => {
+      return value.match(/\w+@\w+\.(com|ru|en)$/)
+    }
+
+    const isValidatePhone = (value) =>
+      value.match(/\+7-\(\d{3}\)-\d{3}-\d{2}-\d{2}/)
+
+    const isValidateName = (value) => value.length > 1 && value.length < 10
+
+    const validate = (field, checkerFn) => {
+      if (!checkerFn(field.value)) {
+        if (field.nextElementSibling.tagName !== 'LABEL') {
+          addLabel(field)
+          validFields[field.name] = false
+        }
+        field.style.outline = '1px solid red'
+      } else {
+        if (field.nextElementSibling.tagName === 'LABEL') {
+          field.nextElementSibling.remove()
+          field.style.outline = 'none'
+        }
+        validFields[field.name] = true
+      }
+    }
+
+    const addLabel = (target) => {
+      const label = document.createElement('label')
+      label.style.position = 'relative'
+      label.style.top = '-9px'
+      label.textContent = `${fieldNames[target.name]}`
+
+      target.insertAdjacentElement('afterend', label)
+    }
+
+    forms.forEach((form) => {
+      form.addEventListener('submit', (e) => {
+        e.preventDefault()
+
+        const { name, phone, email } = form.elements
+        validate(email, isValidateEmail)
+        validate(phone, isValidatePhone)
+        validate(name, isValidateName)
+
+        if (Object.values(validFields).every((el) => el)) {
+          fadeOut(form.parentNode, 500)
+          fadeIn(document.querySelector('[data-target="thanks"]'), {
+            delay: 500,
+          })
+          const formData = new FormData(form)
+          postData(formData).then(() => {
+            form.reset()
+          })
+        }
+      })
+    })
+  }
+
+  const postData = async (data) => {
+    return await fetch('send.php', {
+      method: 'POST',
+      body: data,
+    })
+  }
+
   tabs()
   cardInfo()
   modal()
-  validateForms()
   mask('[name="phone"]')
+  postFormData()
 })
