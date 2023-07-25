@@ -92,9 +92,9 @@ $(document).ready(function () {
 
       closeBtns.forEach((btn) =>
         btn.addEventListener('click', () => {
-          fadeOut(layout, 500)
+          fadeOut(layout, { delay: 500 })
           modals.forEach((modal) => {
-            fadeOut(modal, 500)
+            fadeOut(modal, { delay: 500 })
             setTimeout(() => {
               document.body.style.overflow = ''
               document.body.style.marginRight = 0
@@ -122,7 +122,8 @@ $(document).ready(function () {
     return scroll
   }
 
-  const fadeOut = (target, delay) => {
+  const fadeOut = (target, { delay = 0 } = { delay: 0 }) => {
+    console.log('fadeOut')
     target.style.opacity = 0
 
     setTimeout(() => {
@@ -130,7 +131,11 @@ $(document).ready(function () {
     }, delay)
   }
 
-  const fadeIn = (target, { delay = 0, display = 'block' } = {}) => {
+  const fadeIn = (
+    target,
+    { delay = 0, display = 'block' } = { delay: 0, display: 'block' }
+  ) => {
+    console.log(delay)
     target.style.display = display
 
     setTimeout(() => {
@@ -241,7 +246,7 @@ $(document).ready(function () {
         validate(name, isValidateName)
 
         if (Object.values(validFields).every((el) => el)) {
-          fadeOut(form.parentNode, 500)
+          fadeOut(form.parentNode, { delay: 500 })
           fadeIn(document.querySelector('[data-target="thanks"]'), {
             delay: 500,
           })
@@ -261,9 +266,28 @@ $(document).ready(function () {
     })
   }
 
+  const pageup = () => {
+    const btn = document.querySelector('.pageup')
+
+    window.addEventListener('scroll', () => {
+      const display = window.getComputedStyle(btn).display
+      const opacity = window.getComputedStyle(btn).opacity
+
+      if (window.scrollY > 1600 && display === 'none') {
+        fadeIn(btn, { delay: 300 })
+        console.log('show')
+      }
+      if (window.scrollY < 1600 && opacity === '1') {
+        fadeOut(btn, { delay: 300 })
+        console.log('hide')
+      }
+    })
+  }
+
   tabs()
   cardInfo()
   modal()
   mask('[name="phone"]')
   postFormData()
+  pageup()
 })
